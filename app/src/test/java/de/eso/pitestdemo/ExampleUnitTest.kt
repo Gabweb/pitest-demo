@@ -1,17 +1,36 @@
 package de.eso.pitestdemo
 
+import androidx.compose.material3.Text
+import androidx.compose.ui.test.junit4.createComposeRule
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
+import org.junit.Rule
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
 /**
- * Example local unit test, which will execute on the development machine (host).
+ * Runs as unit-test but fails to run via pitest.
  *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * gradlew testDebugUnitTest
+ * gradlew pitestDebug
+ *
+ * Has probably something to do with androidx.compose.ui:ui-test-manifest
  */
+@RunWith(RobolectricTestRunner::class)
 class ExampleUnitTest {
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun should_show_the_given_location() {
+        // GIVEN
+        composeTestRule.setContent {
+            Text(
+                text = "text",
+            )
+        }
+
+        // THEN
+        assertEquals(true, true)
     }
 }
