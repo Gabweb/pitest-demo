@@ -75,7 +75,8 @@ dependencies {
     testImplementation("org.robolectric:robolectric:4.13")
 
     // Needed for pitest
-    debugImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.androidx.espresso.core)
     // Needed for compose tests
     debugImplementation(libs.androidx.ui.test.manifest)
+    releaseImplementation(libs.androidx.ui.test.manifest)
 }
