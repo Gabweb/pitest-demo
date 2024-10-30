@@ -18,7 +18,7 @@ subprojects {
             "com.arcmutate:pitest-kotlin-plugin:1.3.0"
         )
         dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:base:1.3.1")
-        dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:android:0.0.1")
+        dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:android:0.0.2")
         dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:pitest-git-plugin:1.3.2")
     }
 
@@ -31,6 +31,7 @@ subprojects {
         }
         pitestVersion.set("1.17.0")
         verbose.set(true)
+        excludeMockableAndroidJar.set(true)
         mutators.set(setOf("STRONGER", "EXTENDED"))
     }
 }

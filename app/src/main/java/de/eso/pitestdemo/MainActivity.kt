@@ -32,16 +32,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PiTestDemoTheme {
-        Greeting("Android")
+    if (name == "") {
+        Text(
+            text = "Hello!",
+            modifier = modifier
+        )
+    } else {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+        )
     }
 }
+
+fun someMethod(boolean: Boolean): String = if (boolean) "a" else "b"

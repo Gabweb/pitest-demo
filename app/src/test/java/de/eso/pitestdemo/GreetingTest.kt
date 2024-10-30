@@ -1,8 +1,9 @@
 package de.eso.pitestdemo
 
-import androidx.compose.material3.Text
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
-import org.junit.Assert.assertEquals
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -17,20 +18,26 @@ import org.robolectric.RobolectricTestRunner
  * Has probably something to do with androidx.compose.ui:ui-test-manifest
  */
 @RunWith(RobolectricTestRunner::class)
-class ExampleUnitTest {
+class GreetingTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
-    fun should_show_the_given_location() {
+    fun greetingTest() = runTest {
         // GIVEN
         composeTestRule.setContent {
-            Text(
-                text = "text",
+            Greeting(
+                name = "text",
             )
         }
 
+        composeTestRule.awaitIdle()
+
         // THEN
-        assertEquals(true, true)
+        composeTestRule
+            // Find and match nodes within the UI tree
+            .onNode(hasText("Hello text!"))
+            // Assert the current state of your UI
+            .assertIsDisplayed()
     }
 }

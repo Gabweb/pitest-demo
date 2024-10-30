@@ -30,5 +30,5 @@ androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-te
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-pitest = "pl.droidsonroids.pitest:0.2.18"
+
 
