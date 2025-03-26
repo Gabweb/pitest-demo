@@ -46,3 +46,4 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 }
 
 fun someMethod(boolean: Boolean): String = if (boolean) "a" else "b"
+

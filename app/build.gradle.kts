@@ -1,6 +1,34 @@
+import pl.droidsonroids.gradle.pitest.PitestPluginExtension
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("pl.droidsonroids.pitest")
+}
+
+buildscript {
+    configurations.create("pitest")
+    dependencies.add(
+        "pitest",
+        "com.arcmutate:pitest-kotlin-plugin:1.3.0"
+    )
+    dependencies.add("pitest", "com.arcmutate:base:1.3.1")
+    dependencies.add("pitest", "com.arcmutate:android:0.0.2")
+    dependencies.add("pitest", "com.arcmutate:pitest-git-plugin:1.3.2")
+}
+
+extensions.getByType<PitestPluginExtension>().features.add("+kotlin_extra")
+
+extensions.findByType<PitestPluginExtension>()?.apply {
+    setOf("de.eso.*", "de.esolutions.*").also { targets ->
+        targetClasses.set(targets)
+        targetTests.set(targets.map { "${it}Test" })
+    }
+    pitestVersion.set("1.19.0")
+    verbose.set(true)
+    excludeMockableAndroidJar.set(true)
+    mutators.set(setOf("STRONGER", "EXTENDED"))
 }
 
 android {
@@ -69,6 +97,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.test.junit4.android)
+
+    implementation(libs.coroutines.core)
+    testImplementation(libs.coroutines.test)
+
+    testImplementation("io.mockk:mockk:1.13.17")
 
     // Test
     testImplementation(libs.junit)
