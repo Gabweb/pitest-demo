@@ -15,7 +15,6 @@ import org.robolectric.RobolectricTestRunner
  * gradlew testDebugUnitTest
  * gradlew pitestDebug
  *
- * Has probably something to do with androidx.compose.ui:ui-test-manifest
  */
 @RunWith(RobolectricTestRunner::class)
 class GreetingTest {
