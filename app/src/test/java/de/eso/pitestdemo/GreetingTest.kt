@@ -11,9 +11,12 @@ import org.robolectric.RobolectricTestRunner
 
 /**
  * Runs as unit-test but fails to run via pitest.
+ * Issue seems to be additional android flavors dimensions (e.g. A1Debug)
  *
- * gradlew testDebugUnitTest
- * gradlew pitestDebug
+ * If you had this project running before, please run gradlew clean to reproduce the issue.
+ *
+ * gradlew :app:pitestA1Debug
+ * gradlew :app:testA1DebugUnitTest
  *
  */
 @RunWith(RobolectricTestRunner::class)

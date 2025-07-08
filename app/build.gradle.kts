@@ -21,6 +21,24 @@ android {
         }
     }
 
+    flavorDimensions += "dimensionOne"
+    flavorDimensions += "dimensionTwo"
+    productFlavors {
+        create("a") {
+            dimension = "dimensionOne"
+        }
+        create("b") {
+            dimension = "dimensionOne"
+        }
+
+        create("1") {
+            dimension = "dimensionTwo"
+        }
+        create("2") {
+            dimension = "dimensionTwo"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
