@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "de.eso.pitestdemo"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "de.eso.pitestdemo"
         minSdk = 31
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -21,21 +21,25 @@ android {
         }
     }
 
-    flavorDimensions += "dimensionOne"
-    flavorDimensions += "dimensionTwo"
-    productFlavors {
-        create("a") {
-            dimension = "dimensionOne"
-        }
-        create("b") {
-            dimension = "dimensionOne"
-        }
+    val hasFlavor =  project.findProperty("flavored") != null
 
-        create("1") {
-            dimension = "dimensionTwo"
-        }
-        create("2") {
-            dimension = "dimensionTwo"
+    if (hasFlavor) {
+        flavorDimensions += "dimensionOne"
+        flavorDimensions += "dimensionTwo"
+        productFlavors {
+            create("a") {
+                dimension = "dimensionOne"
+            }
+            create("b") {
+                dimension = "dimensionOne"
+            }
+
+            create("1") {
+                dimension = "dimensionTwo"
+            }
+            create("2") {
+                dimension = "dimensionTwo"
+            }
         }
     }
 

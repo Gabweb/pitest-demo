@@ -13,14 +13,20 @@ import org.robolectric.RobolectricTestRunner
  * Runs as unit-test but fails to run via pitest.
  * Issue seems to be additional android flavors dimensions (e.g. A1Debug)
  *
- * If you had this project running before, please run gradlew clean to reproduce the issue.
+ * If you had this project running before, please run gradlew clean to reproduce
+ * the issue.
  *
- * gradlew :app:pitestA1Debug
- * gradlew :app:testA1DebugUnitTest
+ * With Android Flavors
+ * gradlew :app:pitestA1Debug -Pflavored
+ * gradlew :app:testA1DebugUnitTest -Pflavored
+ *
+ * Without Android Flavors
+ * gradlew :app:pitestDebug
+ * gradlew :app:testDebugUnitTest
  *
  */
 @RunWith(RobolectricTestRunner::class)
-class GreetingTest {
+class RobolectricTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -39,6 +45,25 @@ class GreetingTest {
         composeTestRule
             // Find and match nodes within the UI tree
             .onNode(hasText("Hello text!"))
+            // Assert the current state of your UI
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun greetingTest2() = runTest {
+        // GIVEN
+        composeTestRule.setContent {
+            Greeting(
+                name = "",
+            )
+        }
+
+        composeTestRule.awaitIdle()
+
+        // THEN
+        composeTestRule
+            // Find and match nodes within the UI tree
+            .onNode(hasText("Hello!"))
             // Assert the current state of your UI
             .assertIsDisplayed()
     }

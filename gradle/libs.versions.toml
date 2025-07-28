@@ -1,19 +1,19 @@
 [versions]
-agp = "8.7.3"
+agp = "8.4.2"
 kotlin = "1.9.25"
-coreKtx = "1.16.0"
+coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.9.0"
-activityCompose = "1.10.1"
-composeBom = "2025.05.00"
-uiTestJunit4Android = "1.8.1"
+lifecycleRuntimeKtx = "2.8.6"
+activityCompose = "1.9.3"
+composeBom = "2024.10.00"
+uiTestJunit4Android = "1.7.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-robolectric = "org.robolectric:robolectric:4.14.1"
+robolectric = "org.robolectric:robolectric:4.13"
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }

@@ -3,7 +3,7 @@ package de.eso.pitestdemo
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class SomeMethodTest {
+class UnitTest {
 
     @Test
     fun dummyTest() {
