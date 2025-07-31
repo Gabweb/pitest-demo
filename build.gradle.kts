@@ -5,7 +5,7 @@ import pl.droidsonroids.gradle.pitest.PitestPluginExtension
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.jetbrains.kotlin.android) apply false
-    id("pl.droidsonroids.pitest") version "0.2.22" apply false
+    id("pl.droidsonroids.pitest") version "0.2.23" apply false
 }
 
 
@@ -19,7 +19,7 @@ subprojects {
                 "com.arcmutate:pitest-kotlin-plugin:1.4.3"
             )
             dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:base:1.5.0")
-            dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:android:0.0.5")
+            dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:android:0.0.6")
             dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:pitest-git-plugin:2.2.4")
         }
 
@@ -32,7 +32,7 @@ subprojects {
             }
             pitestVersion.set("1.20.0")
             verbose.set(true)
-            excludeMockableAndroidJar.set(true)
+            excludeMockableAndroidJar.set(false)
             mutators.set(setOf("STRONGER", "EXTENDED"))
         }
     }
