@@ -32,6 +32,7 @@ subprojects {
             }
             pitestVersion.set("1.20.0")
             verbose.set(true)
+            timeoutConstInMillis.set(1000 * 100) // 100s
             excludeMockableAndroidJar.set(false)
             mutators.set(setOf("STRONGER", "EXTENDED"))
         }
