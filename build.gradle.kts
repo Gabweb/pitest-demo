@@ -30,6 +30,8 @@ subprojects {
                 targetClasses.set(targets)
                 targetTests.set(targets.map { "${it}Test" })
             }
+            // Removing junit5PluginVersion fixes broken mutations.
+            junit5PluginVersion.convention("1.2.3")
             pitestVersion.set("1.20.0")
             verbose.set(true)
             timeoutConstInMillis.set(1000 * 100) // 100s

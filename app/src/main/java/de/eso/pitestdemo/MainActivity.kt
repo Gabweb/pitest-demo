@@ -23,26 +23,9 @@ class MainActivity : ComponentActivity() {
                     Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
-                    )
+                    ) {}
                 }
             }
         }
     }
 }
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    if (name == "") {
-        Text(
-            text = "Hello!",
-            modifier = modifier
-        )
-    } else {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
-        )
-    }
-}
-
-fun someMethod(boolean: Boolean): String = if (boolean) "a" else "b"

@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "de.eso.pitestdemo"
-        minSdk = 31
-        targetSdk = 34
+        minSdk = 30
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
 
@@ -54,7 +54,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     packaging {
         resources {
@@ -81,10 +81,11 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.ui.test.junit4.android)
+    testImplementation(libs.androidx.ui.test.junit4)
 
     // Test
-    testImplementation(libs.junit)
+    testImplementation(libs.bundles.jupiter)
+    testRuntimeOnly(libs.bundles.jupiter.runtime)
     testImplementation(libs.robolectric)
 
     // Needed for pitest

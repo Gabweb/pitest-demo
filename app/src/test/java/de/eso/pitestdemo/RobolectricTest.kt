@@ -1,5 +1,6 @@
 package de.eso.pitestdemo
 
+import androidx.compose.material3.Text
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -36,7 +37,11 @@ class RobolectricTest {
         composeTestRule.setContent {
             Greeting(
                 name = "text",
-            )
+            ) {
+                Text(
+                    text = "Hello text!",
+                )
+            }
         }
 
         composeTestRule.awaitIdle()
@@ -55,7 +60,11 @@ class RobolectricTest {
         composeTestRule.setContent {
             Greeting(
                 name = "",
-            )
+            ) {
+                Text(
+                    text = "Nope nope",
+                )
+            }
         }
 
         composeTestRule.awaitIdle()
