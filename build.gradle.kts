@@ -1,11 +1,13 @@
 import pl.droidsonroids.gradle.pitest.PitestPlugin.PITEST_CONFIGURATION_NAME
 import pl.droidsonroids.gradle.pitest.PitestPluginExtension
+import pl.droidsonroids.gradle.pitest.PitestTask
+import kotlin.jvm.java
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.jetbrains.kotlin.android) apply false
-    id("pl.droidsonroids.pitest") version "0.2.23" apply false
+    id("pl.droidsonroids.pitest") version "0.2.25" apply false
 }
 
 
@@ -16,11 +18,11 @@ subprojects {
         buildscript {
             dependencies.add(
                 PITEST_CONFIGURATION_NAME,
-                "com.arcmutate:pitest-kotlin-plugin:1.4.3"
+                "com.arcmutate:pitest-kotlin-plugin:1.5.0"
             )
-            dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:base:1.5.0")
-            dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:android:0.0.6")
-            dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:pitest-git-plugin:2.2.4")
+            dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:base:1.7.0")
+            dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:android:0.0.9")
+            dependencies.add(PITEST_CONFIGURATION_NAME, "com.arcmutate:pitest-git-plugin:2.3.2")
         }
 
         extensions.getByType<PitestPluginExtension>().features.add("+kotlin_extra")
@@ -30,9 +32,8 @@ subprojects {
                 targetClasses.set(targets)
                 targetTests.set(targets.map { "${it}Test" })
             }
-            // Removing junit5PluginVersion fixes broken mutations.
             junit5PluginVersion.convention("1.2.3")
-            pitestVersion.set("1.20.0")
+            pitestVersion.set("1.22.1")
             verbose.set(true)
             timeoutConstInMillis.set(1000 * 100) // 100s
             excludeMockableAndroidJar.set(false)

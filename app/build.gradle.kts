@@ -1,3 +1,9 @@
+import com.android.build.gradle.BaseExtension
+import org.gradle.accessors.dm.LibrariesForLibs
+import org.gradle.kotlin.dsl.named
+import pl.droidsonroids.gradle.pitest.PitestTask
+import kotlin.jvm.java
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -21,7 +27,7 @@ android {
         }
     }
 
-    val hasFlavor =  project.findProperty("flavored") != null
+    val hasFlavor = true // project.findProperty("flavored") != null
 
     if (hasFlavor) {
         flavorDimensions += "dimensionOne"
@@ -70,6 +76,26 @@ android {
 }
 
 
+afterEvaluate {
+    // Hard-coded for reproduction case
+    val flavors = listOf("A1Robolectric", "A1Debug")
+
+    flavors.forEach { flavor ->
+        // This task would configure pitest to run in changed-based mode.
+        tasks.register("pitestChanges$flavor") {
+            val baseTask = tasks.named<PitestTask>("pitest$flavor")
+            finalizedBy(baseTask)
+            doFirst {
+                baseTask.configure {
+                    val reportBaseDir = reportDir.get()
+                    reportDir.set(reportBaseDir.dir("../changes$flavor"))
+                    // Would set git feature, not required to reproduce issue.
+                }
+            }
+        }
+    }
+}
+
 
 dependencies {
     // Standard Setup
@@ -81,16 +107,73 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    testImplementation(libs.androidx.ui.test.junit4)
+
+    debugImplementation(libs.androidx.ui.test.manifest)
 
     // Test
-    testImplementation(libs.bundles.jupiter)
-    testRuntimeOnly(libs.bundles.jupiter.runtime)
     testImplementation(libs.robolectric)
-
-    // Needed for pitest
     testImplementation(libs.androidx.espresso.core)
-    // Needed for compose tests
-    debugImplementation(libs.androidx.ui.test.manifest)
-    releaseImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.androidx.ui.test.junit4)
+    testImplementation("org.junit.platform:junit-platform-launcher:1.13.4")
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.13.4")
 }
+
+
+configureSharedTests()
+
+/**
+ * A dedicated build-type "robolectric" (similar to debug and release) is used in order to run
+ * the same androidTests either on the Emulator or via Robolectric.
+ */
+fun Project.configureSharedTests(modifier: (com.android.build.gradle.internal.dsl.BuildType.() -> Unit) = { }) {
+    with(project.extensions.getByType(BaseExtension::class.java)) {
+        buildTypes {
+            create("robolectric") {
+                initWith(getByName("debug"))
+                matchingFallbacks.addAll(listOf("debug", "release"))
+                modifier()
+            }
+            sourceSets.matching { it.name.startsWith("test") && it.name.endsWith("Robolectric") }.all {
+                val variant = name.removePrefix("test").removeSuffix("Robolectric")
+                variant.directoryCandidates().forEach {
+                    java.srcDir("src/androidTest$it/kotlin")
+                    java.srcDir("src/androidTest$it/java")
+                }
+            }
+        }
+    }
+
+    // all shared androidTests are run with test tasks
+    // so basically the same dependencies are required
+    val testRobolectricImplementation = configurations.getByName("testRobolectricImplementation")
+    val androidTestImplementation = configurations.getByName("androidTestImplementation")
+    testRobolectricImplementation.extendsFrom(androidTestImplementation)
+
+    // robolectric configuration is just a special debug configuration
+    // => inherit all dependencies
+    val debugImplementationDependencies = configurations.getByName("debugImplementation").dependencies.toList()
+    val runtimeOnlyDependencies = configurations.getByName("debugRuntimeOnly").dependencies.toList()
+
+    afterEvaluate {
+        val afterEvaluateDebugDependencies = configurations.getByName("debugImplementation").dependencies.toList()
+        val afterEvaluateRuntimeDependencies = configurations.getByName("debugRuntimeOnly").dependencies.toList()
+        configurations.getByName("robolectricImplementation").dependencies.addAll(afterEvaluateDebugDependencies)
+        configurations.getByName("robolectricRuntimeOnly").dependencies.addAll(afterEvaluateRuntimeDependencies)
+
+        if (debugImplementationDependencies != afterEvaluateDebugDependencies ||
+            runtimeOnlyDependencies != afterEvaluateRuntimeDependencies
+        ) {
+            logger.info("[shared-test] debugImplementationDependencies: {}", debugImplementationDependencies)
+            logger.info("[shared-test] afterEvaluateDebugDependencies: {}", afterEvaluateDebugDependencies)
+            logger.info("[shared-test] runtimeOnlyDependencies: {}", runtimeOnlyDependencies)
+            logger.info("[shared-test] afterEvaluateRuntimeDependencies: {}", afterEvaluateRuntimeDependencies)
+            logger.warn(
+                "[shared-test] WARNING: Detected changes in debugImplementation or " +
+                        "runtimeOnly after configureSharedTests call. This is a bad practice and should be avoided."
+            )
+        }
+    }
+}
+
+private fun String.directoryCandidates(): List<String> =
+    split(Regex("(?=\\p{Lu})")).plus(this).plus("").distinct()

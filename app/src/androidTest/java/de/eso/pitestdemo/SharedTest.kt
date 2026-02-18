@@ -28,7 +28,7 @@ import org.junit.runner.RunWith
  *    - Uses wrong robolectric config "a1Debug".
  */
 @RunWith(AndroidJUnit4::class)
-class RobolectricTest {
+class SharedTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
