@@ -4,11 +4,11 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
 /**
  * Reproducer
@@ -27,7 +27,7 @@ import org.junit.runner.RunWith
  *    - gradlew :app:pitestChangesA1Robolectric
  *    - Uses wrong robolectric config "a1Debug".
  */
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class RobolectricTest {
     @get:Rule
     val composeTestRule = createComposeRule()

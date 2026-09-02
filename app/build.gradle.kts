@@ -1,17 +1,15 @@
 import com.android.build.gradle.BaseExtension
-import org.gradle.accessors.dm.LibrariesForLibs
-import org.gradle.kotlin.dsl.named
 import pl.droidsonroids.gradle.pitest.PitestTask
-import kotlin.jvm.java
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "de.eso.pitestdemo"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "de.eso.pitestdemo"
